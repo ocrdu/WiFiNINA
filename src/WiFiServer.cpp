@@ -30,7 +30,7 @@ extern "C" {
 #include "WiFiServer.h"
 
 WiFiServer::WiFiServer(uint16_t port) :
-  _sock(NO_SOCKET_AVAIL),
+  _sock(NO_SOCKET_AVAIL)
 {
     _port = port;
 }
