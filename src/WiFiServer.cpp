@@ -31,7 +31,6 @@ extern "C" {
 
 WiFiServer::WiFiServer(uint16_t port) :
   _sock(NO_SOCKET_AVAIL),
-  _lastSock(NO_SOCKET_AVAIL)
 {
     _port = port;
 }
@@ -50,19 +49,7 @@ WiFiClient WiFiServer::available(byte* status)
     int sock = NO_SOCKET_AVAIL;
 
     if (_sock != NO_SOCKET_AVAIL) {
-      // check previous received client socket
-      if (_lastSock != NO_SOCKET_AVAIL) {
-          WiFiClient client(_lastSock);
-
-          if (client.connected() && client.available()) {
-              sock = _lastSock;
-          }
-      }
-
-      if (sock == NO_SOCKET_AVAIL) {
-          // check for new client socket
-          sock = ServerDrv::availServer(_sock);
-      }
+        sock = ServerDrv::availServer(_sock);
     }
 
     if (sock != NO_SOCKET_AVAIL) {
@@ -71,8 +58,6 @@ WiFiClient WiFiServer::available(byte* status)
         if (status != NULL) {
             *status = client.status();
         }
-
-        _lastSock = sock;
 
         return client;
     }
